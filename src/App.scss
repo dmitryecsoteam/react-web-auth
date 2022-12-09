@@ -1,0 +1,28 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.Login {
+  width: 300px;
+  margin-top: -30vh;
+
+  &>.ant-input,
+  &>.ant-input-password {
+    margin: 10px 0 20px 0;
+  }
+
+  &>button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
+.ClearButton {
+  display: block;
+  margin: 10px 0;
+}
