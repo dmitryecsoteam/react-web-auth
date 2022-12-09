@@ -53,7 +53,7 @@ export const server = {
         })
     },
 
-    sendPublicKey: (credential: PublicKeyCredential) => {
+    sendPublicKey: (publicKey: PublicKeyCredential) => {
         const attestation = {
             type: '',
             rawId: '',
@@ -61,14 +61,16 @@ export const server = {
             attestationObject: '',
             clientDataJSON: ''
         };
-        attestation.type = credential.type;
-        attestation.id = credential.id;
-        attestation.rawId = encode(credential.rawId);
-        const response = credential.response as AuthenticatorAttestationResponse;
+        attestation.type = publicKey.type;
+        attestation.id = publicKey.id;
+        attestation.rawId = encode(publicKey.rawId);
+        const response = publicKey.response as AuthenticatorAttestationResponse;
         attestation.attestationObject = encode(response.attestationObject);
         attestation.clientDataJSON = encode(response.clientDataJSON);
 
         localStorage.setItem('attestation', JSON.stringify(attestation));
+
+        console.log({ publicKey });
 
 
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || 'null') || initUser;
@@ -79,11 +81,10 @@ export const server = {
     },
 
     loginUserWithTouchID: (assertion: PublicKeyCredential) => {
+        console.log({ assertion })
         return new Promise<UserInfoType | null>(res => {
             const attestation = JSON.parse(localStorage.getItem('attestation') || 'null');
             if (attestation) {
-                console.log({ assertion })
-                console.log({ attestation })
                 const userInfo = JSON.parse(localStorage.getItem('userInfo') || 'null') || initUser;
                 res(userInfo);
             }
